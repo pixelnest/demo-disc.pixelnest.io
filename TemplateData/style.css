@@ -1,0 +1,59 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    /* No pull-to-refresh or rubber-band scrolling while swiping in game */
+    overscroll-behavior: none;
+}
+
+#unity-container {
+    width: 100vw;
+    height: 100vh;
+    /* Visible height on mobile, where 100vh extends under the browser toolbars */
+    height: 100dvh;
+    padding: 0;
+    margin: 0
+}
+
+#unity-canvas {
+    display: block;
+    background: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    /* Touches go to the game, not to page panning, zooming or text selection */
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none
+}
+
+#unity-logo {
+    width: 154px;
+    height: 130px;
+    background: url('unity-logo-dark.png') no-repeat center
+}
+
+#unity-progress-bar-empty {
+    width: 141px;
+    height: 18px;
+    margin-top: 10px;
+    background: url('progress-bar-empty-dark.png') no-repeat center
+}
+
+#unity-progress-bar-full {
+    width: 0%;
+    height: 18px;
+    margin-top: 10px;
+    background: url('progress-bar-full-dark.png') no-repeat center
+}
