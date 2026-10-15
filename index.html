@@ -3,17 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#3e3e3e">
     <title>Demo disc - french indie games</title>
+    <!-- Social previews. SITE_URL and DESCRIPTION are set in Player Settings > Resolution and Presentation. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Pixelnest Studio">
+    <meta property="og:title" content="Demo disc - french indie games">
+    <meta property="og:image" content="TemplateData/social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Demo disc - french indie games">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
+      <div id="unity-loading">
+        <img id="unity-loading-preview" src="TemplateData/social-preview.png" alt="">
+        <h1 id="unity-loading-title">Demo disc - french indie games</h1>
+        <div id="unity-progress-bar" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
@@ -21,14 +32,15 @@
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
+      var loading = document.querySelector("#unity-loading");
+      var progressBar = document.querySelector("#unity-progress-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var buildUrl = "Build/";
-      var loaderUrl = buildUrl + "demo-disc.pixelnest.io.loader.js";
+      var loaderUrl = buildUrl + "Build.loader.js";
       var config = {
-        dataUrl: buildUrl + "demo-disc.pixelnest.io.data.unityweb",
-        frameworkUrl: buildUrl + "demo-disc.pixelnest.io.framework.js.unityweb",
-        codeUrl: buildUrl + "demo-disc.pixelnest.io.wasm.unityweb",
+        dataUrl: buildUrl + "Build.data.unityweb",
+        frameworkUrl: buildUrl + "Build.framework.js.unityweb",
+        codeUrl: buildUrl + "Build.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Pixelnest Studio",
         productName: "Demo disc - french indie games",
@@ -43,15 +55,19 @@
         // Render at CSS resolution instead of the 2-3x native density, for frame rate.
         config.devicePixelRatio = 1;
       }
-      loadingBar.style.display = "block";
-
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
+          progressBar.setAttribute("aria-valuenow", Math.round(100 * progress));
         }).then((unityInstance) => {
-          loadingBar.style.display = "none";
+          progressBarFull.style.width = "100%";
+          loading.classList.add("done");
+          // The bar's own width transition bubbles up here too; wait for the fade.
+          loading.addEventListener("transitionend", (e) => {
+            if (e.target === loading) loading.remove();
+          });
         }).catch((message) => {
           alert(message);
         });

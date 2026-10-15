@@ -1,23 +1,26 @@
 html, body {
+    width: 100%;
+    height: 100%;
     padding: 0;
     margin: 0;
     overflow: hidden;
+    background: #3e3e3e;
     /* No pull-to-refresh or rubber-band scrolling while swiping in game */
     overscroll-behavior: none;
 }
 
+/* Pinned to the viewport edges rather than sized in vw/vh, which can
+   disagree with the visible area on mobile (toolbars, rotation, notch) */
 #unity-container {
-    width: 100vw;
-    height: 100vh;
-    /* Visible height on mobile, where 100vh extends under the browser toolbars */
-    height: 100dvh;
+    position: fixed;
+    inset: 0;
     padding: 0;
     margin: 0
 }
 
 #unity-canvas {
     display: block;
-    background: #FFFFFF;
+    background: #3e3e3e;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -30,30 +33,56 @@ html, body {
     -webkit-tap-highlight-color: transparent;
 }
 
-#unity-loading-bar {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: none
+/* Loading screen: social preview, title and progress bar over the canvas */
+#unity-loading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 24px;
+    box-sizing: border-box;
+    background: #3e3e3e;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    transition: opacity 0.4s ease;
 }
 
-#unity-logo {
-    width: 154px;
-    height: 130px;
-    background: url('unity-logo-dark.png') no-repeat center
+#unity-loading.done {
+    opacity: 0;
+    pointer-events: none;
 }
 
-#unity-progress-bar-empty {
-    width: 141px;
-    height: 18px;
-    margin-top: 10px;
-    background: url('progress-bar-empty-dark.png') no-repeat center
+#unity-loading-preview {
+    width: min(100%, 720px);
+    /* Leave room for the title and bar in landscape phones */
+    max-height: 60vh;
+    max-height: 60dvh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+#unity-loading-title {
+    margin: 0;
+    font-size: clamp(18px, 4vw, 28px);
+    font-weight: 600;
+    text-align: center;
+}
+
+#unity-progress-bar {
+    width: min(100%, 360px);
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
 }
 
 #unity-progress-bar-full {
     width: 0%;
-    height: 18px;
-    margin-top: 10px;
-    background: url('progress-bar-full-dark.png') no-repeat center
+    height: 100%;
+    border-radius: 3px;
+    background: #f08cf0;
+    transition: width 0.2s ease-out;
 }
