@@ -33,7 +33,7 @@ html, body {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Loading screen: social preview, title and progress bar over the canvas */
+/* Loading screen: logo, title and progress bar over the canvas */
 #unity-loading {
     position: fixed;
     inset: 0;
@@ -55,11 +55,12 @@ html, body {
     pointer-events: none;
 }
 
-#unity-loading-preview {
-    width: min(100%, 720px);
+#unity-loading-logo {
+    width: min(60vw, 256px);
     /* Leave room for the title and bar in landscape phones */
-    max-height: 60vh;
-    max-height: 60dvh;
+    max-height: 50vh;
+    max-height: 50dvh;
+    aspect-ratio: 1;
     object-fit: contain;
     border-radius: 8px;
 }
@@ -83,6 +84,6 @@ html, body {
     width: 0%;
     height: 100%;
     border-radius: 3px;
-    background: #f08cf0;
+    background: #00dcc4;
     transition: width 0.2s ease-out;
 }
